@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maincrafts &mdash; Build Things That Work</title>
+<style>
+  :root{
+    --ink:#0f1720;
+    --blueprint:#12233b;
+    --blueprint-line: rgba(255,255,255,0.06);
+    --paper:#f4f1ea;
+    --amber:#e08a2c;
+    --amber-soft:#f2c98e;
+    --slate:#7c8ba1;
+    --display: 'Georgia', 'Iowan Old Style', serif;
+    --body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--body);
+    color:var(--paper);
+    background:var(--blueprint);
+    background-image:
+      linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+  a{color:inherit;}
+
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px 8vw;
+  }
+  .brand{
+    font-family:var(--mono);
+    letter-spacing:2px;
+    font-size:14px;
+    text-transform:uppercase;
+    color:var(--amber-soft);
+  }
+  .brand span{color:var(--paper); font-weight:bold;}
+  nav a{
+    margin-left:28px;
+    text-decoration:none;
+    font-size:14px;
+    color:var(--slate);
+    transition:color .2s;
+  }
+  nav a:hover{color:var(--paper);}
+
+  .hero{
+    padding:8vh 8vw 10vh;
+    max-width:900px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    color:var(--amber);
+    font-size:13px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    border-left:2px solid var(--amber);
+    padding-left:12px;
+    margin-bottom:24px;
+  }
+  h1{
+    font-family:var(--display);
+    font-size:clamp(2.4rem, 6vw, 4.2rem);
+    line-height:1.08;
+    margin:0 0 24px;
+    font-weight:400;
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--amber-soft);
+  }
+  .lead{
+    font-size:1.15rem;
+    color:var(--slate);
+    max-width:560px;
+    line-height:1.6;
+    margin-bottom:36px;
+  }
+  .cta-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:2px;
+    text-decoration:none;
+    font-size:14px;
+    letter-spacing:.5px;
+    font-family:var(--mono);
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn-primary{
+    background:var(--amber);
+    color:var(--ink);
+    font-weight:600;
+  }
+  .btn-primary:hover{transform:translateY(-2px); background:var(--amber-soft);}
+  .btn-ghost{
+    border:1px solid var(--slate);
+    color:var(--paper);
+  }
+  .btn-ghost:hover{border-color:var(--paper);}
+
+  section.features{
+    background:var(--paper);
+    color:var(--ink);
+    padding:8vh 8vw;
+    background-image:none;
+  }
+  .features-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:36px;
+    margin-top:48px;
+  }
+  .feature .num{
+    font-family:var(--mono);
+    color:var(--amber);
+    font-size:13px;
+    letter-spacing:2px;
+  }
+  .feature h3{
+    font-family:var(--display);
+    font-size:1.4rem;
+    margin:10px 0 10px;
+  }
+  .feature p{color:#4a5568; line-height:1.55; font-size:.95rem;}
+  .section-title{
+    font-family:var(--display);
+    font-size:2rem;
+    margin:0;
+  }
+
+  section.contact{
+    padding:10vh 8vw;
+    display:grid;
+    grid-template-columns:1fr 1.1fr;
+    gap:60px;
+  }
+  @media (max-width: 800px){
+    section.contact{grid-template-columns:1fr;}
+    header{flex-direction:column; gap:16px; align-items:flex-start;}
+  }
+  .contact-intro h2{
+    font-family:var(--display);
+    font-size:2.2rem;
+    margin-top:0;
+  }
+  .contact-intro p{color:var(--slate); line-height:1.6;}
+
+  form{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.1);
+    padding:32px;
+    border-radius:4px;
+  }
+  .field{margin-bottom:20px;}
+  label{
+    display:block;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--amber-soft);
+    margin-bottom:8px;
+  }
+  input, textarea{
+    width:100%;
+    padding:12px 14px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:2px;
+    color:var(--paper);
+    font-family:var(--body);
+    font-size:14px;
+  }
+  input:focus, textarea:focus{
+    outline:none;
+    border-color:var(--amber);
+  }
+  textarea{min-height:120px; resize:vertical;}
+  button[type=submit]{
+    width:100%;
+    border:none;
+    cursor:pointer;
+  }
+  #formMsg{
+    margin-top:16px;
+    font-size:14px;
+    font-family:var(--mono);
+    min-height:20px;
+    color:var(--amber-soft);
+  }
+
+  footer{
+    padding:32px 8vw;
+    color:var(--slate);
+    font-size:13px;
+    font-family:var(--mono);
+    text-align:center;
+    border-top:1px solid var(--blueprint-line);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span>MAIN</span>CRAFTS</div>
+  <nav>
+    <a href="#features">What we build</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Full Stack &middot; Task 01</div>
+  <h1>We build the <em>joints and welds</em><br>your product stands on.</h1>
+  <p class="lead">
+    Maincrafts is a small studio for teams who need their backend and frontend
+    to actually fit together &mdash; no loose ends, no guesswork. This page is
+    wired to a live Spring Boot server sitting right underneath it.
+  </p>
+  <div class="cta-row">
+    <a href="#contact" class="btn btn-primary">Start a project</a>
+    <a href="#features" class="btn btn-ghost">See the craft</a>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <h2 class="section-title">How we work</h2>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="num">01</div>
+      <h3>Design in the open</h3>
+      <p>Every interface decision is made with the data model in mind, not bolted on after.</p>
+    </div>
+    <div class="feature">
+      <div class="num">02</div>
+      <h3>Server-side discipline</h3>
+      <p>Java &amp; Spring Boot on the backend &mdash; predictable, typed, and built to last.</p>
+    </div>
+    <div class="feature">
+      <div class="num">03</div>
+      <h3>One request at a time</h3>
+      <p>We ship small, working slices &mdash; like this very form &mdash; and grow from there.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-intro">
+    <h2>Tell us what<br>you're building.</h2>
+    <p>Fill this out and it lands straight in our server console &mdash; you can watch
+    it appear in your terminal the moment you hit send.</p>
+  </div>
+
+  <form id="contactForm">
+    <div class="field">
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" placeholder="Ada Lovelace" required>
+    </div>
+    <div class="field">
+      <label for="email">Your email</label>
+      <input type="email" id="email" name="email" placeholder="ada@example.com" required>
+    </div>
+    <div class="field">
+      <label for="message">Your message</label>
+      <textarea id="message" name="message" placeholder="What are you building?"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send message</button>
+    <div id="formMsg"></div>
+  </form>
+</section>
+
+<footer>
+  &copy; 2026 Maincrafts Technology &mdash; hr@maincrafts.com
+</footer>
+
+<script>
+  const form = document.getElementById('contactForm');
+  const msg = document.getElementById('formMsg');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    msg.textContent = 'Sending...';
+
+    const params = new URLSearchParams(new FormData(form));
+
+    try {
+      const res = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params
+      });
+      const text = await res.text();
+      msg.textContent = text;
+      form.reset();
+    } catch (err) {
+      msg.textContent = 'Something went wrong. Is the backend running?';
+    }
+  });
+</script>
+
+</body>
+</html>
